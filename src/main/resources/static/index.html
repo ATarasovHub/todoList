@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>To-Do List</h1>
+        <a href="#taskModal" class="add-task-btn btn">+</a>
+    </header>
+
+    <table class="todo-table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Task</th>
+            <th>Deadline</th>
+        </tr>
+        </thead>
+        <tbody id="task-list">
+        </tbody>
+    </table>
+
+    <footer>
+        <a href="/history.html" class="history-btn btn">History</a>
+    </footer>
+</div>
+
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <h2>Add New Task</h2>
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="taskName">Enter New Task:</label>
+                <input type="text" id="taskName" placeholder="New Task">
+            </div>
+            <div class="form-group">
+                <label for="taskDeadlineDateAndTime">Enter Deadline:</label>
+                <input type="datetime-local" id="taskDeadlineDateAndTime">
+            </div>
+            <button type="submit">Add Task</button>
+            <a href="#" class="close-btn">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Task</title>
+</head>
+<body>
+<h2>Edit Task</h2>
+<form id="editTaskForm">
+  <label for="taskName">Task Name:</label>
+  <input type="text" id="taskName" required><br>
+
+  <label for="taskDeadlineDateAndTime">Task Deadline:</label>
+  <input type="datetime-local" id="taskDeadlineDateAndTime" required><br>
+
+  <input type = "hidden" id = "taskId"><br>
+  <button type="submit">Save</button>
+</form>
+
+<script>
+  document.getElementById("editTaskForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const taskName = document.getElementById("taskName").value;
+    const taskDeadlineDateAndTime = document.getElementById("taskDeadlineDateAndTime").value;
+    const taskId = document.getElementById("taskId").value;
+
+    if (!taskName || !taskDeadlineDateAndTime) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const response = await fetch('/tasks/edit', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: taskId,
+        name: taskName,
+        deadline: taskDeadlineDateAndTime
+      })
+    });
+
+    if (response.ok) {
+      window.close();
+      window.opener.fetchTasks();
+    } else {
+      console.error('Error updating task.');
+    }
+
+    document.getElementById("taskName").value = '';
+    document.getElementById("taskDeadlineDateAndTime").value = '';
+  });
+</script>
+</body>
+</html>
