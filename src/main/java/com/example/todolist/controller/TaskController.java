@@ -26,7 +26,7 @@ public class TaskController {
 
   @PostMapping
   public ResponseEntity<Task> createTask(@RequestBody Task task) {
-    log.info("Task created{}", task);
+//    log.info("Task created{}", task);
     Task addTAsk = taskService.saveTask(task);
     return ResponseEntity.status(HttpStatus.OK).body(addTAsk);
   }

@@ -32,11 +32,6 @@ public class TaskService {
     return taskRepository.save(tasksModel);
   }
 
-  @Transactional
-  public void clearTaskHistory() {
-    taskRepository.deleteAll();
-  }
-
   public void editTask(TaskEditRequest taskEditRequest) {
     Task task = taskRepository.findById(taskEditRequest.getId()).orElseThrow(() -> new RuntimeException("Task not found"));
 

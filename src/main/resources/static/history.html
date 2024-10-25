@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task History</title>
   <link rel="stylesheet" href="history.css">
+  <script src="script.js"></script>
 </head>
 <body>
 <div class="container">
@@ -16,23 +17,22 @@
   <table class="history-table">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>Task</th>
-      <th>Deadline</th>
+      <th id="sort-id">ID <span class="sort-indicator" data-sort="asc">&#9650;</span></th>
+      <th id="sort-name">Task <span class="sort-indicator" data-sort="asc">&#9650;</span></th>
+      <th id="sort-deadline">Deadline <span class="sort-indicator" data-sort="asc">&#9650;</span></th>
     </tr>
     </thead>
     <tbody id="task-history">
+
     </tbody>
   </table>
 
   <footer>
     <p class="history-end">End of Task History</p>
   </footer>
-
 </div>
 
-<script src = "history.js">
-</script>
+<script src="history.js"></script>
 
 </body>
 </html>

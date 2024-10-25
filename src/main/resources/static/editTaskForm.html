@@ -1,56 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Task</title>
+  <link rel="stylesheet" href="editTaskFormStyle.css">
 </head>
 <body>
-<h2>Edit Task</h2>
-<form id="editTaskForm">
-  <label for="taskName">Task Name:</label>
-  <input type="text" id="taskName" required><br>
+<div class="container">
+  <h2>Edit Task</h2>
+  <form id="editTaskForm">
+    <div class="form-group">
+      <label for="taskName">Task Name:</label>
+      <input type="text" id="taskName" required>
+    </div>
 
-  <label for="taskDeadlineDateAndTime">Task Deadline:</label>
-  <input type="datetime-local" id="taskDeadlineDateAndTime" required><br>
+    <div class="form-group">
+      <label for="taskDeadlineDateAndTime">Task Deadline:</label>
+      <input type="datetime-local" id="taskDeadlineDateAndTime" required>
+    </div>
 
-  <input type = "hidden" id = "taskId"><br>
-  <button type="submit">Save</button>
-</form>
-
-<script>
-  document.getElementById("editTaskForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    const taskName = document.getElementById("taskName").value;
-    const taskDeadlineDateAndTime = document.getElementById("taskDeadlineDateAndTime").value;
-    const taskId = document.getElementById("taskId").value;
-
-    if (!taskName || !taskDeadlineDateAndTime) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
-    const response = await fetch('/tasks/edit', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: taskId,
-        name: taskName,
-        deadline: taskDeadlineDateAndTime
-      })
-    });
-
-    if (response.ok) {
-      window.close();
-      window.opener.fetchTasks();
-    } else {
-      console.error('Error updating task.');
-    }
-
-    document.getElementById("taskName").value = '';
-    document.getElementById("taskDeadlineDateAndTime").value = '';
-  });
-</script>
+    <input type="hidden" id="taskId">
+    <button type="submit">Save</button>
+  </form>
+</div>
+<script src="editTaskFormScript.js"></script>
 </body>
 </html>
