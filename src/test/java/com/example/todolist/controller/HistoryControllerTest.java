@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.todolist.model.History;
+import com.example.todolist.model.history.HistoryRecord;
 import com.example.todolist.service.HistoryService;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -25,11 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(HistoryController.class)
 public class HistoryControllerTest {
 
-  @Autowired
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-  @MockBean
-  private HistoryService historyService;
+  @MockBean private HistoryService historyService;
 
   @BeforeEach
   public void setup() {
@@ -38,49 +36,45 @@ public class HistoryControllerTest {
 
   @Test
   public void testGetAllHistory() throws Exception {
-    History history1 = History.builder()
-            .id(1L)
-            .name("Test History 1")
-            .deadline(LocalDateTime.now())
-            .build();
+    HistoryRecord history1 =
+        HistoryRecord.builder().id(1L).name("Test History 1").deadline(LocalDateTime.now()).build();
 
-    History history2 = History.builder()
+    HistoryRecord history2 =
+        HistoryRecord.builder()
             .id(2L)
             .name("Test History 2")
             .deadline(LocalDateTime.now().plusDays(1))
             .build();
 
-    List<History> historyList = Arrays.asList(history1, history2);
+    List<HistoryRecord> historyList = Arrays.asList(history1, history2);
 
     when(historyService.getAllHistory()).thenReturn(historyList);
 
-    mockMvc.perform(get("/history")
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$[0].id").value(1L))
-            .andExpect(jsonPath("$[0].name").value("Test History 1"))
-            .andExpect(jsonPath("$[1].id").value(2L))
-            .andExpect(jsonPath("$[1].name").value("Test History 2"));
+    mockMvc
+        .perform(get("/history").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$[0].id").value(1L))
+        .andExpect(jsonPath("$[0].name").value("Test History 1"))
+        .andExpect(jsonPath("$[1].id").value(2L))
+        .andExpect(jsonPath("$[1].name").value("Test History 2"));
   }
 
   @Test
   public void testCreateHistory() throws Exception {
-    History history = History.builder()
-            .id(1L)
-            .name("New History")
-            .deadline(LocalDateTime.now())
-            .build();
+    HistoryRecord history =
+        HistoryRecord.builder().id(1L).name("New History").deadline(LocalDateTime.now()).build();
 
-    when(historyService.saveHistory(any(History.class))).thenReturn(history);
+    when(historyService.saveHistory(any(HistoryRecord.class))).thenReturn(history);
 
-    mockMvc.perform(post("/history/createHistory")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"name\":\"New History\",\"deadline\":\"2024-10-24T10:00:00\"}"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON)) 
-            .andExpect(jsonPath("$.id").value(1L))
-            .andExpect(jsonPath("$.name").value("New History"));
+    mockMvc
+        .perform(
+            post("/history/createHistory")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"New History\",\"deadline\":\"2024-10-24T10:00:00\"}"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(1L))
+        .andExpect(jsonPath("$.name").value("New History"));
   }
-
 }

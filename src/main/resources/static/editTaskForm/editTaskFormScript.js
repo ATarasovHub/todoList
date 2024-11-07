@@ -23,8 +23,8 @@ document.getElementById("editTaskForm").addEventListener("submit", async functio
         return;
     }
 
-    const response = await fetch('/tasks/edit', {
-        method: "POST",
+    const response = await fetch(`/tasks/${taskId}/edit`, {
+        method: "PUT",
         headers: {
             'Content-Type': 'application/json',
         },

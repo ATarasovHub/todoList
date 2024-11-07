@@ -221,8 +221,6 @@ input[type="button"]#editButton:hover {
     border-radius: 5px;
 }
 
-
-
 .todo-table th, .todo-table td {
     padding: 12px;
     text-align: left;
@@ -245,7 +243,6 @@ input[type="button"]#editButton:hover {
     width: auto;
 }
 
-
 input[type="button"] {
     width: 120px;
     padding: 8px 10px;
@@ -254,20 +251,25 @@ input[type="button"] {
     cursor: pointer;
 }
 
-input[type="button"]#buttonCheck {
-    background-color: #007BFF;
-    color: white;
+
+.sort-indicator {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 5px;
 }
 
-input[type="button"]#buttonCheck:hover {
-    background-color: #0056b3;
+.sort-indicator.asc {
+    transform: rotate(180deg);
 }
 
-input[type="button"]#editButton {
-    background-color: #FFC107;
-    color: white;
+.sort-indicator.desc {
+    transform: rotate(0deg);
 }
 
-input[type="button"]#editButton:hover {
-    background-color: #e0a800;
+.sort-indicator {
+    transition: transform 0.3s;
+}
+
+.sort-indicator.flipped {
+    transform: rotate(180deg);
 }

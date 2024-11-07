@@ -1,4 +1,4 @@
-package com.example.todolist.model;
+package com.example.todolist.model.task;
 
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @Data
 public class TaskEditRequest {
-    private Long id;
     private String name;
     private LocalDateTime deadline;
 }

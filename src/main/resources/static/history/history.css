@@ -130,3 +130,25 @@ footer {
     margin-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.sort-indicator {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 5px;
+}
+
+.sort-indicator.asc {
+    transform: rotate(180deg);
+}
+
+.sort-indicator.desc {
+    transform: rotate(0deg);
+}
+
+.sort-indicator {
+    transition: transform 0.3s;
+}
+
+.sort-indicator.flipped {
+    transform: rotate(180deg);
+}

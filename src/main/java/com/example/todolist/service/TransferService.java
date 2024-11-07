@@ -1,32 +1,33 @@
 package com.example.todolist.service;
 
-import com.example.todolist.model.History;
-import com.example.todolist.model.Task;
+import com.example.todolist.model.history.History;
+import com.example.todolist.model.task.Task;
 import com.example.todolist.repository.HistoryRepository;
 import com.example.todolist.repository.TaskRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TransferService {
-    @Autowired
-    private HistoryRepository historyRepository;
 
-    @Autowired
-    private TaskRepository taskRepository;
+  private final HistoryRepository historyRepository;
 
-    @Transactional
-    public void transferRow(Long id){
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+  private final TaskRepository taskRepository;
 
-        History history = new History();
-        history.setId(task.getId());
-        history.setName(task.getName());
-        history.setDeadline(task.getDeadline());
+  @Transactional
+  public void transferRow(Long id) {
+    Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
 
-        historyRepository.save(history);
-        taskRepository.deleteById(id);
-    }
+    History history =
+        History.builder()
+            .id(task.getId())
+            .name(task.getName())
+            .deadline(task.getDeadline())
+            .build();
+
+    historyRepository.save(history);
+    taskRepository.deleteById(id);
+  }
 }

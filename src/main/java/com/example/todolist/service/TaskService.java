@@ -1,54 +1,58 @@
 package com.example.todolist.service;
 
-import com.example.todolist.model.Task;
-import com.example.todolist.model.TaskEditRequest;
+import com.example.todolist.model.task.Task;
+import com.example.todolist.model.task.TaskEditRequest;
+import com.example.todolist.model.task.TaskRecord;
 import com.example.todolist.repository.TaskRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class TaskService {
 
   private final TaskRepository taskRepository;
 
-  @Autowired
-  public TaskService(TaskRepository taskRepository) {
-    this.taskRepository = taskRepository;
+  public List<TaskRecord> getAllTasks() {
+    return taskRepository.findAll().stream().map(this::toTaskRecord).collect(Collectors.toList());
   }
 
-  public List<Task> getAllTasks() {
-    return taskRepository.findAll();
+  public TaskRecord saveTask(TaskRecord tasksModel) {
+    return toTaskRecord(taskRepository.save(toTask(tasksModel)));
   }
 
-  public Task saveTask(Task tasksModel) {
-    return taskRepository.save(tasksModel);
+  public void editTask(Long id, TaskEditRequest taskEditRequest) {
+    Task task =
+        taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+    task.setName(taskEditRequest.getName());
+    task.setDeadline(taskEditRequest.getDeadline());
+
+    taskRepository.save(task);
   }
 
-  public void editTask(TaskEditRequest taskEditRequest) {
-    Task task = taskRepository.findById(taskEditRequest.getId()).orElseThrow(() -> new RuntimeException("Task not found"));
-
-    Task newTask = new Task();
-
-    newTask.setId(task.getId());
-    newTask.setName(taskEditRequest.getName());
-    newTask.setDeadline(taskEditRequest.getDeadline());
-
-    taskRepository.deleteById(taskEditRequest.getId());
-    taskRepository.save(newTask);
-
-    log.info(newTask);
+  public TaskRecord getTaskById(Long id) {
+    return toTaskRecord(
+        taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found")));
   }
 
-  public Task getTaskById(Long id) {
-    return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+  public TaskRecord toTaskRecord(Task task) {
+    return TaskRecord.builder()
+        .id(task.getId())
+        .name(task.getName())
+        .deadline(task.getDeadline())
+        .build();
   }
 
+  public Task toTask(TaskRecord taskRecord) {
+    return Task.builder()
+        .id(taskRecord.getId())
+        .name(taskRecord.getName())
+        .deadline(taskRecord.getDeadline())
+        .build();
+  }
 }

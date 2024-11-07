@@ -1,10 +1,8 @@
-package com.example.todolist.model;
+package com.example.todolist.model.history;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import lombok.*;
 
 @Builder
 @Getter
@@ -12,6 +10,7 @@ import java.time.LocalTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Table(name = "history")
 public class History {
     @Id
