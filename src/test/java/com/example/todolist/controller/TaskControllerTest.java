@@ -12,11 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.lang.reflect.Executable;
 import java.util.List;
-import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,7 +63,6 @@ public class TaskControllerTest {
         // Then
         // Validate input using Mockito verify or ArgumentCaptor
         verify(taskService).editTask(eq(taskId), eq(taskEditRequest));
-        // Add more assertions if necessary
     }
 
     @Test
@@ -82,7 +80,6 @@ public class TaskControllerTest {
         // Then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         verify(taskService).saveTask(eq(newTask));
-        // Add more assertions if necessary
     }
 
 

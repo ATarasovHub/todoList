@@ -20,7 +20,11 @@ public class UserController {
 
   @GetMapping("/{id}")
   public ResponseEntity<UsersRecord> getUsersByID(@PathVariable Long id) {
+
     UsersRecord usersRecord = userService.getUserById(id);
+    if(usersRecord == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
     return ResponseEntity.ok(usersRecord);
   }
 
@@ -29,7 +33,7 @@ public class UserController {
     log.info("Login attempt for user: {}", loginRequest.getUsername());
 
     if (loginRequest.getUsername() == null || loginRequest.getPassword() == null) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
     boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
@@ -41,6 +45,7 @@ public class UserController {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
   }
+
 
 
 

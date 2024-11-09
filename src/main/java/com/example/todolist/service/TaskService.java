@@ -23,17 +23,35 @@ public class TaskService {
   }
 
   public TaskRecord saveTask(TaskRecord tasksModel) {
+    if (tasksModel.getName() == null) {
+      throw new IllegalArgumentException("Name must not be null");
+    }
+    if (tasksModel.getDeadline() == null) {
+      throw new IllegalArgumentException("Deadline must not be null");
+    }
     return toTaskRecord(taskRepository.save(toTask(tasksModel)));
   }
 
-  public void editTask(Long id, TaskEditRequest taskEditRequest) {
-    Task task =
-        taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
-    task.setName(taskEditRequest.getName());
-    task.setDeadline(taskEditRequest.getDeadline());
+  public void editTask(Long taskId, TaskEditRequest taskEditRequest) {
 
-    taskRepository.save(task);
+    Task existingTask = taskRepository.findById(taskId)
+            .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+
+
+    if (taskEditRequest.getName() == null) {
+      throw new IllegalArgumentException("Name must not be null");
+    }
+
+    if (taskEditRequest.getDeadline() == null) {
+      throw new IllegalArgumentException("Deadline must not be null");
+    }
+
+    existingTask.setName(taskEditRequest.getName());
+    existingTask.setDeadline(taskEditRequest.getDeadline());
+
+    taskRepository.save(existingTask);
   }
+
 
   public TaskRecord getTaskById(Long id) {
     return toTaskRecord(

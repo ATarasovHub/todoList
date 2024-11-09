@@ -17,44 +17,25 @@ public class UserService {
 
     private final UsersRepository usersRepository;
 
-//    public UsersRecord findByUsername(String username) {
-//        Users user =
-//                usersRepository
-//                        .findByUsername(username)
-//                        .orElseThrow(() -> new RuntimeException("User not found"));
-//        return toUsersRecord(user);
-//    }
-//
-//    public boolean authenticateUser(UsersRecord loginRequest) {
-//        UsersRecord user = findByUsername(loginRequest.getUsername());
-//
-//
-//        if (user == null) {
-//            return false;
-//        }
-//
-//        return user.getPassword().equals(loginRequest.getPassword());
-//    }
-
     public boolean authenticate(String username, String password) {
-    Users user = usersRepository.findByUsername(username).orElse(null);
-    if (user != null) {
-        return user.getPassword().equals(password); 
+        Users user = usersRepository.findByUsername(username).orElse(null);
+        if (user != null) {
+            return user.getPassword().equals(password);
+        }
+        return false;
     }
-    return false; 
-}
 
     public UsersRecord findByUsername(String username) {
-    Users user = usersRepository.findByUsername(username).orElse(null);
-    if (user != null) {
-        return UsersRecord.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .build();
+        Users user = usersRepository.findByUsername(username).orElse(null);
+        if (user != null) {
+            return UsersRecord.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .build();
+        }
+        return null;
     }
-    return null;
-}
 
 
     public UsersRecord getUserById(Long id) {
