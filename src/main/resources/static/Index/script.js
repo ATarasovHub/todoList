@@ -87,7 +87,8 @@ async function editDataInActualTasks(taskId) {
         return;
     }
 
-    const formWindow = window.open('editTaskForm.html', '_blank', 'width=400,height=300');
+    const formWindow = window.open('static/editTaskForm/editTaskForm.html', '_blank',
+        'width=400,height=300');
 
     formWindow.addEventListener('load', function () {
         formWindow.document.getElementById("taskName").value = task.name;

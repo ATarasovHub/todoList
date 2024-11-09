@@ -1,7 +1,9 @@
 package com.example.todolist.model.task;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -13,4 +15,6 @@ public class TaskRecord {
     private String name;
 
     private LocalDateTime deadline;
+
+
 }
